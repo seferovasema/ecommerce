@@ -1,17 +1,23 @@
 package com.sema.ecommerce.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
+@Table(
+        name = "cart_items",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"cart_id", "product_id"}
+                )
+        }
+)
 @Getter
 @Setter
-@Entity
-@Table(name = "cart_items")
+@NoArgsConstructor
 public class CartItem extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -22,6 +28,7 @@ public class CartItem extends BaseEntity {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @Min(1)
     @Column(nullable = false)
     private Integer quantity;
 }

@@ -1,6 +1,7 @@
 package com.sema.ecommerce.controller;
 
 import com.sema.ecommerce.dto.request.CartItemRequest;
+import com.sema.ecommerce.dto.request.CartItemUpdateRequest;
 import com.sema.ecommerce.dto.response.CartResponse;
 import com.sema.ecommerce.service.CartService;
 import jakarta.validation.Valid;
@@ -38,7 +39,7 @@ public class CartController {
     public ResponseEntity<CartResponse> updateItem(
             @PathVariable Long userId,
             @PathVariable Long cartItemId,
-            @Valid @RequestBody CartItemRequest request) {
+            @Valid @RequestBody CartItemUpdateRequest request) {
 
         return ResponseEntity.ok(
                 cartService.updateItem(
