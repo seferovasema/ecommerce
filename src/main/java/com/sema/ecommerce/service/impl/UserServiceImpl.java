@@ -10,6 +10,7 @@ import com.sema.ecommerce.mapper.UserMapper;
 import com.sema.ecommerce.repository.UserRepository;
 import com.sema.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponse createUser(UserRequest request) {
@@ -25,6 +27,7 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyExistsException( "Email already exists: " + request.getEmail());
         }
         User user = userMapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
 
         User savedUser = userRepository.save(user);
